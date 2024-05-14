@@ -17,18 +17,14 @@ export class EmployeeEffects {
     private employeeService: EmployeeService
   ) {}
 
-  // Run this code when a loadTodos action is dispatched
   loadEmployees$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmployeesActions.loadEmployees),
       switchMap(() =>
-        // Call the getTodos method, convert it to an observable
         from(this.employeeService.getEmployees()).pipe(
-          // Take the returned value and return a new success action containing the todos
           map((employees) =>
             EmployeesActions.loadEmployeesSuccess({ employees: employees })
           ),
-          // Or... if it errors return a new failure action containing the error
           catchError((error) =>
             of(EmployeesActions.loadEmployeesFailure({ error }))
           )
@@ -36,8 +32,6 @@ export class EmployeeEffects {
       )
     )
   );
-
-
 
   deleteEmployee$ = createEffect(() =>
     this.actions$.pipe(
@@ -52,8 +46,6 @@ export class EmployeeEffects {
         )
       )  
     );
-
-
 
     addEmployee$ = createEffect(() =>
       this.actions$.pipe(
@@ -70,8 +62,6 @@ export class EmployeeEffects {
         )
       )
     );
-
-
 
     updateEmployee$ = createEffect(() =>
       this.actions$.pipe(

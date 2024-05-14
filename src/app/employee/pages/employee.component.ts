@@ -36,9 +36,6 @@ export class EmployeeComponent implements OnInit {
   }
 
   private _getEmployeeList(): void {
-    // this.employeeService.getEmployees().subscribe((employeesData) => {
-    //   this.employees = employeesData;
-    // });
     this.store.dispatch(EmployeesActions.loadEmployees());
   }
 
@@ -49,7 +46,6 @@ export class EmployeeComponent implements OnInit {
   closeEmployeeAddModal(event?: boolean): void {
     this.employee = null;
     this.isEmployeeAddModalOpen = false;
-    // if (event) this._getEmployeeList();
   }
 
   openEmployeeDeleteModal(id: number|undefined): void {
@@ -60,7 +56,6 @@ export class EmployeeComponent implements OnInit {
   onDeleteConfirmed(confirmed: boolean) {
     this.isEmployeeDeleteModalOpen = false;
     if (confirmed) {
-      // Perform delete action
       this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete}));
     }
     this.employeeIdToDelete = undefined;
@@ -68,15 +63,6 @@ export class EmployeeComponent implements OnInit {
 
   onDelete(id: number): void {
     this.store.dispatch(EmployeesActions.deleteEmployees({id}));
-    // this.employeeService.deleteEmployeeById(id).subscribe({
-    //   next: (response) => {
-    //     this.toastr.success('Employee Deleted!');
-    //     this._getEmployeeList();
-    //   },
-    //   error: (error) => {
-    //     console.error('Error deleting employee:', error);
-    //   },
-    // });
   }
 
 

@@ -9,7 +9,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, materialize, dematerialize } from 'rxjs/operators';
 
-// array in local storage for registered employee
 const employeesKey = 'angular-tutorial-employees';
 let employees: any[] = JSON.parse(localStorage.getItem(employeesKey)!) || [];
 
@@ -37,12 +36,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.match(/\/employees\/\d+$/) && method === 'DELETE':
           return deleteEmployees();
         default:
-          // pass through any requests not handled above
           return next.handle(request);
       }
     }
-
-    // route functions
 
     function getEmployees() {
       return ok(employees.map((x) => basicDetails(x)));
@@ -73,7 +69,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       let params = body.employee;
       let employee = employees.find((x) => x.id === idFromUrl());
 
-      // update and save employee
       Object.assign(employee, params);
       localStorage.setItem(employeesKey, JSON.stringify(employees));
 
@@ -86,10 +81,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(idFromUrl());
     }
 
-    // helper functions
-
     function ok(body?: any) {
-      return of(new HttpResponse({ status: 200, body })).pipe(delay(500)); // delay observable to simulate server api call
+      return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
 
     function error(message: string) {
@@ -97,7 +90,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         materialize(),
         delay(500),
         dematerialize()
-      ); // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648);
+      );
     }
 
     function idFromUrl() {

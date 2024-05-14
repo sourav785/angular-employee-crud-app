@@ -17,30 +17,25 @@ export const initialState: EmployeeState = {
 };
 
 export const employeeReducer = createReducer(
-  // Supply the initial state
   initialState,
-  // Trigger loading the todos
+
   on(EmployeesActions.loadEmployees, (state) => ({
     ...state,
     status: StateStatus.LOADING,
   })),
-  // Handle successfully loaded todos
+
   on(EmployeesActions.loadEmployeesSuccess, (state, { employees }) => ({
     ...state,
     employees: employees,
     error: null,
     status: StateStatus.SUCCESS,
   })),
-  // Handle todos load failure
+  
   on(EmployeesActions.loadEmployeesFailure, (state, { error }) => ({
     ...state,
     error: error,
     status: StateStatus.ERROR,
   })),
-
-
-
-
 
   on(EmployeesActions.deleteEmployees, (state) => ({
     ...state,
@@ -60,11 +55,6 @@ export const employeeReducer = createReducer(
     status: StateStatus.ERROR,
   })),
 
-
-
-
-
-
   on(EmployeesActions.addEmployees, (state, { employee }) => ({
     ...state,
     status: StateStatus.LOADING, 
@@ -82,9 +72,6 @@ export const employeeReducer = createReducer(
     error: error,
     status: StateStatus.ERROR,
   })),
-
-
-  
 
   on(EmployeesActions.updateEmployees, (state) => ({
     ...state,

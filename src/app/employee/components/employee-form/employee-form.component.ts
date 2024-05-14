@@ -2,11 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +16,7 @@ import {
 } from '@angular/forms';
 import { Employee } from '../../models/employee.models';
 import { Store } from '@ngrx/store';
-import { EmployeeSelectors, EmployeesActions } from '../../../states/employee';
+import { EmployeesActions } from '../../../states/employee';
 import { AppState } from '../../../states/app.state';
 
 @Component({
@@ -28,9 +25,6 @@ import { AppState } from '../../../states/app.state';
   styleUrl: './employee-form.component.scss',
 })
 
-// edit
-//
-// delete
 export class EmployeeFormComponent implements OnInit {
   @Input() data!: Employee|null;
   @Output() closeModalOutputFromForm: EventEmitter<boolean> =
@@ -63,23 +57,9 @@ export class EmployeeFormComponent implements OnInit {
   onSave(): void {
     if (this.employeeForm.valid) {
       if (this.data) {
-        // this.employeeService
-        //   .updateEmployeeById({ id: this.data.id, ...this.employeeForm.value })
-        //   .subscribe({
-        //     next: (response) => {
-        //       this.toastr.success('Employee Updated');
-        //       this.closeModal(true);
-        //     },
-        //   });
          this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.employeeForm.value} }));
          
       } else {
-        // this.employeeService.createEmployee(this.employeeForm.value).subscribe({
-        //   next: (response) => {
-        //     this.toastr.success('New Employee Added');
-        //     this.closeModal(true);
-        //   },
-        // });
         this.store.dispatch(EmployeesActions.addEmployees({ employee: this.employeeForm.value }));
       }
     } else {
