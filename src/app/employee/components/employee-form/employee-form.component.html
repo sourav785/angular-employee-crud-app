@@ -1,0 +1,95 @@
+<form [formGroup]="employeeForm" class="w-full" (ngSubmit)="onSave()">
+  <div class="border border-gray-300 rounded-lg p-6">
+    <div>
+      <input
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="First Name"
+        formControlName="FirstName"
+      />
+      <div
+        *ngIf="
+          employeeForm.get('FirstName')?.hasError('required') &&
+          employeeForm.get('FirstName')?.touched
+        "
+      >
+        <div class="form-error">FirstName is required</div>
+      </div>
+    </div>
+
+    <div>
+      <input
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="Last Name"
+        formControlName="LastName"
+      />
+      <div
+        *ngIf="
+          employeeForm.get('LastName')?.hasError('required') &&
+          employeeForm.get('LastName')?.touched
+        "
+      >
+        <div class="form-error">LastName is required</div>
+      </div>
+    </div>
+
+    <div>
+      <input
+        type="email"
+        class="border rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="Email"
+        formControlName="Email"
+      />
+      <div *ngIf="employeeForm.get('Email')?.touched">
+        <div
+          *ngIf="employeeForm.get('Email')?.hasError('required')"
+          class="form-error"
+        >
+          Email is required
+        </div>
+        <div
+          *ngIf="employeeForm.get('Email')?.hasError('email')"
+          class="form-error"
+        >
+          Email is invalid
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <input
+        type="date"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="Date of Birth"
+        formControlName="DOB"
+      />
+      <div
+        *ngIf="
+          employeeForm.get('DOB')?.hasError('required') &&
+          employeeForm.get('DOB')?.touched
+        "
+      >
+        <div class="form-error">Date of Birth is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input [type]="passwordInputType" placeholder="Enter your password" />
+      <span class="eyeicon" (click)="togglePassword()">
+        <i
+          [class]="passwordInputType === 'text' ? 'fa-eye' : 'fa-eye-slash'"
+        ></i>
+      </span>
+    </div>
+
+    <div class="flex justify-end px-0">
+      <button
+        type="submit"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full px-6 py-3 text-center mr-0"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</form>
