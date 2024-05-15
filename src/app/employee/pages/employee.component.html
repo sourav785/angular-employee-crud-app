@@ -63,7 +63,7 @@
   ></app-employee-form>
 </app-modal>
 
-<app-modal [isOpen]="isEmployeeDeleteModalOpen">
+<app-modal [isOpen]="isEmployeeDeleteModalOpen" (closeModalOutput)="onDeleteConfirmed(false)">
   <div class="flex">
     <div class="justify-between p-4">
       <div class="confirmation-dialog">
