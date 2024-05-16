@@ -1,4 +1,5 @@
-<form [formGroup]="employeeForm" class="w-full" (ngSubmit)="onSave()">
+<div class="max-h-screen overflow-y-auto">
+  <form [formGroup]="employeeForm" class="w-full" (ngSubmit)="onSave()">
   <div class="border border-gray-300 rounded-lg p-6">
     <div>
       <input
@@ -90,4 +91,93 @@
       </button>
     </div>
   </div>
-</form>
+</form> 
+
+<div>
+  <p> Full Name from form: {{ fullName }} </p>
+</div>
+
+    <input
+        [(ngModel)]="firstName"
+        (ngModelChange)="generateFullNameFromNgModel()"
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="First Name"
+      />
+
+    <input
+        [(ngModel)]="lastName"
+        (ngModelChange)="generateFullNameFromNgModel()"
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="Last Name"
+      />
+
+      <div>
+        Full Name from model: {{ fullName }}
+      </div>
+
+     <input
+        [(ngModel)]="firstNameSignal"
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="First Name"
+      />
+
+    <input
+        [(ngModel)]="lastNameSignal"
+        type="text"
+        class="border border-gray-300 rounded-md px-4 py-2 mb-4 focus:outline-none focus:border-blue-500 block w-full"
+        placeholder="Last Name" 
+        />
+
+    <div>
+      Full Name from signal: {{ fullNameSignal() }}
+    </div>
+
+
+    <table class="table">
+      <thead>
+          <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Full Name</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>
+                  {{ first_name() }}
+              </td>
+              <td>
+                  {{ last_name() }}
+              </td>
+              <td>
+                  {{ full_name() }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control" [value]="first_name()" #fname placeholder="Change First Name">
+                      <button (click)="changeFirstName(fname.value)" class="btn btn-outline-primary" type="button">
+                          Change First Name
+                      </button>
+                  </div>
+              </td>
+              <td>
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control" [value]="last_name()" #lname placeholder="Change Last Name">
+                      <button (click)="changeLastName(lname.value)" class="btn btn-outline-primary" type="button">
+                          Change Last Name
+                      </button>
+                  </div>
+              </td>
+              <td>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+

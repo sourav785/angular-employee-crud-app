@@ -2,8 +2,14 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
+  Signal,
+  WritableSignal,
+  computed,
+  model,
+  signal,
 } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +24,7 @@ import { Employee } from '../../models/employee.models';
 import { Store } from '@ngrx/store';
 import { EmployeesActions } from '../../../states/employee';
 import { AppState } from '../../../states/app.state';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-form',
@@ -25,7 +32,7 @@ import { AppState } from '../../../states/app.state';
   styleUrl: './employee-form.component.scss',
 })
 
-export class EmployeeFormComponent implements OnInit {
+export class EmployeeFormComponent implements OnInit, OnDestroy {
   @Input() data!: Employee|null;
   @Output() closeModalOutputFromForm: EventEmitter<boolean> =
     new EventEmitter<boolean>();
@@ -33,6 +40,21 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
 
   passwordInputType: string = 'password';
+
+
+  firstName: string = '';
+  lastName: string = '';
+  fullName: string = '';
+
+  firstNameSignal: WritableSignal<string> = model('');
+  lastNameSignal: WritableSignal<string> = model('');
+  fullNameSignal: Signal<string> = computed(() => `${this.firstNameSignal()} ${this.lastNameSignal()}` );
+
+  first_name = signal('');
+  last_name = signal('');
+
+
+  public subs: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +74,30 @@ export class EmployeeFormComponent implements OnInit {
     if (this.data) {
       this.employeeForm.patchValue(this.data);
     }
+
+    let firstNameChangesub = this.employeeForm.get('FirstName')?.valueChanges.subscribe((value) => {
+      this.generateFullNameFromForm();
+    });
+
+    this.subs.push(firstNameChangesub!);
+
+    let lastNameChangesub = this.employeeForm.get('LastName')?.valueChanges.subscribe((value) => {
+      this.generateFullNameFromForm();
+    });
+
+    this.subs.push(lastNameChangesub!);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.map(s => s.unsubscribe());
+  }
+
+  generateFullNameFromForm() {
+    this.fullName = this.employeeForm.get('FirstName')?.value + ' ' + this.employeeForm.get('LastName')?.value;
+  }
+
+  generateFullNameFromNgModel() {
+    this.fullName = this.firstName + ' ' + this.lastName;
   }
 
   onSave(): void {
@@ -75,4 +121,14 @@ export class EmployeeFormComponent implements OnInit {
     this.passwordInputType =
       this.passwordInputType === 'password' ? 'text' : 'password';
   }
+
+  changeFirstName(fname: any){
+    this.first_name.set(fname);
+  }
+  changeLastName(lname: any){
+    this.last_name.set(lname);
+  }
+  full_name = computed(()=>{
+    return this.first_name() + ' ' + this.last_name()
+  });
 }
