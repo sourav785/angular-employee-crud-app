@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ToastrService } from 'ngx-toastr';
 import { EmployeeService } from '../../services/employee.service';
 import { Employee } from '../models/employee.models';
@@ -10,14 +9,14 @@ import { AppState } from '../../states/app.state';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss',
+  styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
   public employees: Employee[] = [];
   isEmployeeAddModalOpen = false;
   isEmployeeDeleteModalOpen = false;
-  employee: Employee|null = null;
-  employeeIdToDelete: number|undefined = undefined;
+  employee: Employee | null = null;
+  employeeIdToDelete: number | undefined = undefined;
 
   constructor(
     private employeeService: EmployeeService,
@@ -39,7 +38,8 @@ export class EmployeeComponent implements OnInit {
     this.store.dispatch(EmployeesActions.loadEmployees());
   }
 
-  openEmployeeAddModal(): void {
+  openEmployeeAddModal(employee?: Employee): void {
+    if(employee) this.employee = employee;
     this.isEmployeeAddModalOpen = true;
   }
 
@@ -48,26 +48,16 @@ export class EmployeeComponent implements OnInit {
     this.isEmployeeAddModalOpen = false;
   }
 
-  openEmployeeDeleteModal(id: number|undefined): void {
+  openEmployeeDeleteModal(id: number | undefined): void {
     this.employeeIdToDelete = id;
     this.isEmployeeDeleteModalOpen = true;
   }
 
-  onDeleteConfirmed(confirmed: boolean) {
+  onDeleteConfirmed(confirmed: boolean): void {
     this.isEmployeeDeleteModalOpen = false;
     if (confirmed) {
-      this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete}));
+      this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete }));
     }
     this.employeeIdToDelete = undefined;
-  }
-
-  onDelete(id: number): void {
-    this.store.dispatch(EmployeesActions.deleteEmployees({id}));
-  }
-
-
-  loadEmployee(employee: Employee) {
-    this.employee = employee;
-    this.openEmployeeAddModal();
   }
 }

@@ -9,52 +9,11 @@
   </button>
 </div>
 
-<div *ngIf="employees.length > 0" class="container mx-auto">
-  <h2 class="text-2xl font-bold mb-4 text-center p-6">Employee Details</h2>
-  <div class="overflow-x-auto">
-    <table class="min-w-full">
-      <thead>
-        <tr class="text-center">
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">ID</th>
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6" >First Name</th>
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Last Name</th>
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Email</th>
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Date of Birth</th>
-          <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees" class="text-center">
-          <td class="border px-4 py-2">{{ employee.id }}</td>
-          <td class="border px-4 py-2">{{ employee.FirstName }}</td>
-          <td class="border px-4 py-2">{{ employee.LastName }}</td>
-          <td class="border px-4 py-2">{{ employee.Email }}</td>
-          <td class="border px-4 py-2">
-            {{ employee.DOB | date : "yyyy-MM-dd" }}
-          </td>
-          <div class="flex">
-            <div class="w-1/2 border p-4">
-              <button
-                (click)="loadEmployee(employee)"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Edit
-              </button>
-            </div>
-            <div class="w-1/2 border p-4">
-              <button (click)="openEmployeeDeleteModal(employee.id)"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >Delete</button>
-            </div>
-          </div>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<div *ngIf="employees.length === 0" class="container mx-auto">
-  <p class="text-lg">No employee data available.</p>
-</div>
+<app-employee-table
+  [employees]="employees"
+  (editEmployee)="openEmployeeAddModal($event)"
+  (deleteEmployee)="openEmployeeDeleteModal($event)"
+></app-employee-table>
 
 <app-modal [isOpen]="isEmployeeAddModalOpen" (closeModalOutput)="closeEmployeeAddModal($event)">
   <app-employee-form
@@ -66,21 +25,24 @@
 
 <app-modal [isOpen]="isEmployeeDeleteModalOpen" (closeModalOutput)="onDeleteConfirmed(false)">
   <div class="border border-gray-300 rounded-lg p-6">
-  <p class="p-4">Are you sure you want to delete?</p>
-  <div class="flex">
-    <div class="w-1/2 grid justify-items-start p-4">
-      <button (click)="onDeleteConfirmed(true)"
-      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline border-solid"
-      >Yes</button>
-    </div>
-    <div class="w-1/2 grid justify-items-end p-4">
-      <button (click)="onDeleteConfirmed(false)"
-      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline border-solid"
-      >No</button>
+    <p class="p-4">Are you sure you want to delete?</p>
+    <div class="flex">
+      <div class="w-1/2 grid justify-items-start p-4">
+        <button
+          (click)="onDeleteConfirmed(true)"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline border-solid"
+        >
+          Yes
+        </button>
+      </div>
+      <div class="w-1/2 grid justify-items-end p-4">
+        <button
+          (click)="onDeleteConfirmed(false)"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline border-solid"
+        >
+          No
+        </button>
+      </div>
     </div>
   </div>
-</div>
 </app-modal>
-
-
-
