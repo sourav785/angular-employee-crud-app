@@ -6,6 +6,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 The Employee Management App is a web application designed to manage employee information. It includes features to create, read, update, and delete employee details. The application is built using Angular, NgRx for state management, and Tailwind CSS for styling.
 
+## What Have I Learned
+  1. HTML
+  2. Tailwind
+  3. HTTP calls
+  4. Custom components, input, output
+  5. RxJs
+  6. NgRx
+  7. Signals
+
 ## Features
 
 - Add new employees
@@ -22,7 +31,7 @@ The Employee Management App is a web application designed to manage employee inf
 - Tailwind CSS
 - ngx-toastr (Notifications)
 - Font Awesome (Icons)
-
+- 
 ## Getting Started
 
 ### Prerequisites
