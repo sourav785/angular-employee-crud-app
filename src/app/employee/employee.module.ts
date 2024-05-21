@@ -5,16 +5,19 @@ import { EmployeeRoutingModule } from './employee.routing';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmployeeTableComponent } from './components/employee-table/employee-table.component';
+import { CustomTableComponent } from '../shared/custom-table/custom-table.component';
+
 
 @NgModule({
-  declarations: [EmployeeComponent, EmployeeFormComponent, EmployeeTableComponent],
+  declarations: [EmployeeComponent, EmployeeFormComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     EmployeeRoutingModule,
-    ModalComponent
+    ModalComponent,
+    CustomTableComponent
+    
   ],
   providers: [],
 })

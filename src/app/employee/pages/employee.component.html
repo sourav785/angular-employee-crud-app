@@ -9,11 +9,13 @@
   </button>
 </div>
 
-<app-employee-table
-  [employees]="employees"
+<app-custom-table
+  [columnDetails]="columnDetails()"
+  [rowDetails]="rowDetails()"
+  [actions]="actions"
   (editEmployee)="openEmployeeAddModal($event)"
   (deleteEmployee)="openEmployeeDeleteModal($event)"
-></app-employee-table>
+></app-custom-table>
 
 <app-modal [isOpen]="isEmployeeAddModalOpen" (closeModalOutput)="closeEmployeeAddModal($event)">
   <app-employee-form

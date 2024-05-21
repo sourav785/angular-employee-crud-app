@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { EmployeeService } from '../../services/employee.service';
-import { Employee } from '../models/employee.models';
 import { Store } from '@ngrx/store';
 import { EmployeeSelectors, EmployeesActions } from '../../states/employee';
 import { AppState } from '../../states/app.state';
+import { ColumnDataType, ColumnDetails, Employee } from '../models/employee.models';
 
 @Component({
   selector: 'app-employee',
@@ -12,14 +11,56 @@ import { AppState } from '../../states/app.state';
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
-  public employees: Employee[] = [];
+
+  columnDetails: WritableSignal<ColumnDetails[]> = signal([
+    {
+      name: "ID",
+      key: "id",
+      dataType: ColumnDataType.Text,
+    },
+    {
+      name: "First Name",
+      key: "FirstName",
+      dataType: ColumnDataType.Text,
+    },
+    {
+      name: "Last Name",
+      key: "LastName",
+      dataType: ColumnDataType.Text
+    },
+    {
+      name: "Email",
+      key: "Email",
+      dataType: ColumnDataType.Text
+    },
+    {
+      name: "DOB",
+      key: "DOB",
+      dataType: ColumnDataType.Date,
+      dateFormat: 'EEEE, MMMM d, y, h:mm:ss a zzzz'
+    }
+  ]);
+
+  actions = {
+    editEmployee: {
+      action: (employee: Employee) => this.openEmployeeAddModal(employee),
+      text: 'Edit',
+      styles: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
+    },
+    deleteEmployee: {
+      action: (id: number) => this.openEmployeeDeleteModal(id),
+      text: 'Delete',
+      styles: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
+    }
+  };
+
+  public rowDetails: WritableSignal<Employee[]> = signal([]);
   isEmployeeAddModalOpen = false;
   isEmployeeDeleteModalOpen = false;
   employee: Employee | null = null;
   employeeIdToDelete: number | undefined = undefined;
 
   constructor(
-    private employeeService: EmployeeService,
     private toastr: ToastrService,
     private store: Store<AppState>
   ) {}
@@ -29,7 +70,7 @@ export class EmployeeComponent implements OnInit {
     this.store
       .select(EmployeeSelectors.selectAllEmployees)
       .subscribe((employees) => {
-        this.employees = employees;
+        this.rowDetails.set(employees);
         this.closeEmployeeAddModal();
       });
   }
@@ -39,7 +80,9 @@ export class EmployeeComponent implements OnInit {
   }
 
   openEmployeeAddModal(employee?: Employee): void {
-    if(employee) this.employee = employee;
+    if (employee) {
+      this.employee = employee;
+    }
     this.isEmployeeAddModalOpen = true;
   }
 

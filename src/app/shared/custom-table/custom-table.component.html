@@ -1,0 +1,56 @@
+@if(rowDetails().length > 0) {
+  <div class="container mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center p-6">Employee Details</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead>
+          <tr class="text-center">
+            @for(column of columnDetails(); track $index){
+              <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">{{ column.name }}</th>
+            }
+            <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(employee of rowDetails(); track $index){
+            <tr class="text-center">
+              @for(column of columnDetails(); track $index){
+                @if(column.dataType === ColumnDataType.Text){
+                  <td class="border px-4 py-2">{{ employee[column.key] }}</td>
+                }
+                @if(column.dataType === ColumnDataType.Date){
+                  <td class="border px-4 py-2">{{ employee[column.key] | date: column.dateFormat ? column.dateFormat : "dd-MM-yyyy" }}</td>
+                }
+              }
+              <div class="flex">
+                <div class="w-1/2 border p-4">
+                  <button
+                      (click)="actions.editEmployee.action(employee)"
+                      class="{{actions.editEmployee.styles}}"
+                    >
+                      {{actions.editEmployee.text}}
+                    </button>
+                </div>
+                <div class="w-1/2 border p-4">
+                  <button
+                      (click)="actions.deleteEmployee.action(employee.id)"
+                      class="{{actions.deleteEmployee.styles}}"
+                    >
+                      {{actions.deleteEmployee.text}}
+                    </button>
+                </div>
+              </div>
+            </tr>
+          }
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+@if(rowDetails().length === 0){
+  <div class="container mx-auto">
+    <p class="text-lg">No employee data available.</p>
+  </div>
+}
