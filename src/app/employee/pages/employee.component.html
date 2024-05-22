@@ -15,7 +15,17 @@
   [actions]="actions"
   (editEmployee)="openEmployeeAddModal($event)"
   (deleteEmployee)="openEmployeeDeleteModal($event)"
-></app-custom-table>
+>
+  <div class="flex">
+    
+    <div class="w-1/2 border p-4">
+      <ng-content></ng-content>
+    </div>
+    <div class="w-1/2 border p-4">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</app-custom-table>
 
 <app-modal [isOpen]="isEmployeeAddModalOpen" (closeModalOutput)="closeEmployeeAddModal($event)">
   <app-employee-form

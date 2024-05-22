@@ -14,8 +14,17 @@ export class CustomTableComponent {
 
   ColumnDataType = ColumnDataType;
 
+  @Input() tableConfig!: {
+    showActionColumn: boolean,
+    showEditButton: boolean,
+    showDeleteButton: boolean,
+  }
+
   @Input() actions!: {
+    showActionColumn: boolean,
+    showEditButton: boolean,
     editEmployee: { action: (employee: Employee) => void, text: string, styles: string };
+    showDeleteButton: boolean,
     deleteEmployee: { action: (id: number) => void, text: string, styles: string };
   };
 
