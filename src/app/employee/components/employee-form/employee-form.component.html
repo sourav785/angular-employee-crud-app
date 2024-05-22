@@ -1,5 +1,5 @@
 <div class="max-h-screen overflow-y-auto">
-  <form [formGroup]="employeeForm" class="w-full" (ngSubmit)="onSave()">
+  <form [formGroup]="tableForm" class="w-full" (ngSubmit)="onSave()">
     <div class="border border-gray-300 rounded-lg p-6">
       <div class="mb-4">
         <input
@@ -8,7 +8,7 @@
           placeholder="First Name"
           formControlName="FirstName"
         />
-        @if(employeeForm.get('FirstName')?.hasError('required') && employeeForm.get('FirstName')?.touched){
+        @if(tableForm.get('FirstName')?.hasError('required') && tableForm.get('FirstName')?.touched){
           <div class="form-error">First Name is required</div>
         }
       </div>
@@ -20,7 +20,7 @@
           placeholder="Last Name"
           formControlName="LastName"
         />
-        @if(employeeForm.get('LastName')?.hasError('required') && employeeForm.get('LastName')?.touched){
+        @if(tableForm.get('LastName')?.hasError('required') && tableForm.get('LastName')?.touched){
           <div class="form-error">Last Name is required</div>
         }
       </div>
@@ -32,11 +32,11 @@
           placeholder="Email"
           formControlName="Email"
         />
-        @if(employeeForm.get('Email')?.touched){
-          @if(employeeForm.get('Email')?.hasError('required')){
+        @if(tableForm.get('Email')?.touched){
+          @if(tableForm.get('Email')?.hasError('required')){
             <div class="form-error">Email is required</div>
           }
-          @if(employeeForm.get('Email')?.hasError('email')){
+          @if(tableForm.get('Email')?.hasError('email')){
             <div class="form-error">Email is invalid</div>
           }
         }
@@ -49,7 +49,7 @@
           placeholder="Date of Birth"
           formControlName="DOB"
         />
-        @if(employeeForm.get('DOB')?.hasError('required') && employeeForm.get('DOB')?.touched){
+        @if(tableForm.get('DOB')?.hasError('required') && tableForm.get('DOB')?.touched){
           <div class="form-error">Date of Birth is required</div>
         }
       </div>

@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { EmployeeSelectors, EmployeesActions } from '../../states/employee';
 import { AppState } from '../../states/app.state';
-import { ColumnDataType, ColumnDetails, Employee } from '../models/employee.models';
+import { ColumnDataType, ColumnDetails, Employee, TableConfigurationDetails } from '../models/employee.models';
 
 @Component({
   selector: 'app-employee',
@@ -40,28 +40,13 @@ export class EmployeeComponent implements OnInit {
       dateFormat: 'EEEE, MMMM d, y, h:mm:ss a zzzz'
     }
   ]);
-
-  tableConfig = {
+ 
+  tableConfig = signal<TableConfigurationDetails>({
     showActionColumn: true,
     showEditButton: true,
     showDeleteButton: true,
-  }
+  });
 
-  actions = {
-    showActionColumn: true,
-    showEditButton: true,
-    // editEmployee: {
-    //   action: (employee: Employee) => this.openEmployeeAddModal(employee),
-    //   text: 'Edit',
-    //   styles: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
-    // },
-    showDeleteButton: true,
-    // deleteEmployee: {
-    //   action: (id: number) => this.openEmployeeDeleteModal(id),
-    //   text: 'Delete',
-    //   styles: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
-    // }
-  };
 
   public rowDetails: WritableSignal<Employee[]> = signal([]);
   isEmployeeAddModalOpen = false;
@@ -70,7 +55,6 @@ export class EmployeeComponent implements OnInit {
   employeeIdToDelete: number | undefined = undefined;
 
   constructor(
-    private toastr: ToastrService,
     private store: Store<AppState>
   ) {}
 

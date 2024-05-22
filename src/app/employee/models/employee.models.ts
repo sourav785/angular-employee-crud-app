@@ -13,6 +13,12 @@ export interface ColumnDetails{
   dateFormat?: string;
 }
 
+export interface TableConfigurationDetails{
+   showActionColumn: boolean;
+   showEditButton: boolean;
+   showDeleteButton: boolean; 
+}
+
 export enum ColumnDataType{
   Text = "text",
   Number = "number",

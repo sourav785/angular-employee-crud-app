@@ -18,7 +18,6 @@ import { Employee } from '../../models/employee.models';
 import { Store } from '@ngrx/store';
 import { EmployeesActions } from '../../../states/employee';
 import { AppState } from '../../../states/app.state';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-form',
@@ -27,11 +26,10 @@ import { Subscription } from 'rxjs';
 })
 
 export class EmployeeFormComponent implements OnInit {
-  @Input() data!: Employee|null;
-  @Output() closeModalOutputFromForm: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
+  @Input() data!: Employee | null;
+  @Output() closeModalOutputFromForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  employeeForm: FormGroup;
+  tableForm: FormGroup;
 
   passwordInputType: string = 'password';
 
@@ -41,7 +39,7 @@ export class EmployeeFormComponent implements OnInit {
     private toastr: ToastrService,
     private store: Store<AppState>
   ) {
-    this.employeeForm = this.formBuilder.group({
+    this.tableForm = this.formBuilder.group({
       FirstName: new FormControl('', [Validators.required]),
       LastName: new FormControl('', [Validators.required]),
       Email: new FormControl('', [Validators.required, Validators.email]),
@@ -51,20 +49,20 @@ export class EmployeeFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.employeeForm.patchValue(this.data);
+      this.tableForm.patchValue(this.data);
     }
   }
 
   onSave(): void {
-    if (this.employeeForm.valid) {
+    if (this.tableForm.valid) {
       if (this.data) {
-         this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.employeeForm.value} }));
+         this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.tableForm.value} }));
          
       } else {
-        this.store.dispatch(EmployeesActions.addEmployees({ employee: this.employeeForm.value }));
+        this.store.dispatch(EmployeesActions.addEmployees({ employee: this.tableForm.value }));
       }
     } else {
-      this.employeeForm.markAllAsTouched();
+      this.tableForm.markAllAsTouched();
     }
   }
 

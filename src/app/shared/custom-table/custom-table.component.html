@@ -8,27 +8,29 @@
             @for(column of columnDetails(); track $index){
               <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">{{ column.name }}</th>
             }
-            <th *ngIf="actions.showActionColumn" class="px-4 py-2 border border-gray-300 rounded-lg p-6">Actions</th>
+            @if(tableConfig().showActionColumn){
+              <th class="px-4 py-2 border border-gray-300 rounded-lg p-6">Actions</th>
+            }
           </tr>
         </thead>
         <tbody>
-          @for(employee of rowDetails(); track $index){
+          @for(rowData of rowDetails(); track $index){
             <tr class="text-center">
               @for(column of columnDetails(); track $index){
                 @if(column.dataType === ColumnDataType.Text){
-                  <td class="border px-4 py-2">{{ employee[column.key] }}</td>
+                  <td class="border px-4 py-2">{{ rowData[column.key] }}</td>
                 }
                 @if(column.dataType === ColumnDataType.Date){
-                  <td class="border px-4 py-2">{{ employee[column.key] | date: column.dateFormat ? column.dateFormat : "dd-MM-yyyy" }}</td>
+                  <td class="border px-4 py-2">{{ rowData[column.key] | date: column.dateFormat ? column.dateFormat : "dd-MM-yyyy" }}</td>
                 }
               }
-              @if(actions.showActionColumn){
+              @if(tableConfig().showActionColumn){
                 <div class="flex">
-                  @if (actions.showEditButton && editButtonTemplate){
-                    <ng-container *ngTemplateOutlet="editButtonTemplate; context: {employee: employee}"></ng-container>
+                  @if (tableConfig().showEditButton && editButtonTemplate){
+                    <ng-container *ngTemplateOutlet="editButtonTemplate; context: {employee: rowData}"></ng-container>
                   }
-                  @if(actions.showDeleteButton && deleteButtonTemplate){
-                    <ng-container *ngTemplateOutlet="deleteButtonTemplate; context: {employee: employee}"></ng-container>
+                  @if(tableConfig().showDeleteButton && deleteButtonTemplate){
+                    <ng-container *ngTemplateOutlet="deleteButtonTemplate; context: {employee: rowData}"></ng-container>
                   }
                 </div>
               }
