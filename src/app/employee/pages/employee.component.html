@@ -13,18 +13,27 @@
   [columnDetails]="columnDetails()"
   [rowDetails]="rowDetails()"
   [actions]="actions"
-  (editEmployee)="openEmployeeAddModal($event)"
-  (deleteEmployee)="openEmployeeDeleteModal($event)"
 >
-  <div class="flex">
-    
-    <div class="w-1/2 border p-4">
-      <ng-content></ng-content>
-    </div>
-    <div class="w-1/2 border p-4">
-      <ng-content></ng-content>
-    </div>
+<ng-template #editButtonTemplate let-employee="employee">
+  <div class="w-1/2 border p-4">
+    <button
+      (click)="openEmployeeAddModal(employee)"
+      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Edit
+    </button>
   </div>
+</ng-template>
+<ng-template #deleteButtonTemplate let-employee="employee">
+  <div class="w-1/2 border p-4">
+    <button
+      (click)="openEmployeeDeleteModal(employee.id)"
+      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>
 </app-custom-table>
 
 <app-modal [isOpen]="isEmployeeAddModalOpen" (closeModalOutput)="closeEmployeeAddModal($event)">

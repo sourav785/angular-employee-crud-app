@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, input, Input } from '@angular/core';
+import { Component, Output, EventEmitter, input, Input, TemplateRef, ContentChild } from '@angular/core';
 import { ColumnDataType, ColumnDetails, Employee } from '../../employee/models/employee.models';
 import { CommonModule } from '@angular/common';
 
@@ -14,18 +14,18 @@ export class CustomTableComponent {
 
   ColumnDataType = ColumnDataType;
 
-  @Input() tableConfig!: {
-    showActionColumn: boolean,
-    showEditButton: boolean,
-    showDeleteButton: boolean,
-  }
+  // @Input() editButtonTemplate!: TemplateRef<any>;
+  // @Input() deleteButtonTemplate!: TemplateRef<any>;
+
+  @ContentChild('editButtonTemplate') editButtonTemplate!: TemplateRef<any>;
+  @ContentChild('deleteButtonTemplate') deleteButtonTemplate!: TemplateRef<any>;
 
   @Input() actions!: {
     showActionColumn: boolean,
     showEditButton: boolean,
-    editEmployee: { action: (employee: Employee) => void, text: string, styles: string };
+    // editEmployee: { action: (employee: Employee) => void, text: string, styles: string };
     showDeleteButton: boolean,
-    deleteEmployee: { action: (id: number) => void, text: string, styles: string };
+    // deleteEmployee: { action: (id: number) => void, text: string, styles: string };
   };
 
   columnDetails = input.required<ColumnDetails[]>();

@@ -50,17 +50,17 @@ export class EmployeeComponent implements OnInit {
   actions = {
     showActionColumn: true,
     showEditButton: true,
-    editEmployee: {
-      action: (employee: Employee) => this.openEmployeeAddModal(employee),
-      text: 'Edit',
-      styles: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
-    },
+    // editEmployee: {
+    //   action: (employee: Employee) => this.openEmployeeAddModal(employee),
+    //   text: 'Edit',
+    //   styles: 'bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
+    // },
     showDeleteButton: true,
-    deleteEmployee: {
-      action: (id: number) => this.openEmployeeDeleteModal(id),
-      text: 'Delete',
-      styles: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
-    }
+    // deleteEmployee: {
+    //   action: (id: number) => this.openEmployeeDeleteModal(id),
+    //   text: 'Delete',
+    //   styles: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline',
+    // }
   };
 
   public rowDetails: WritableSignal<Employee[]> = signal([]);

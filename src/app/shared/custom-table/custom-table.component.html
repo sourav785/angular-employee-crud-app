@@ -22,21 +22,15 @@
                   <td class="border px-4 py-2">{{ employee[column.key] | date: column.dateFormat ? column.dateFormat : "dd-MM-yyyy" }}</td>
                 }
               }
-              @if (actions.showEditButton){
-                <button 
-                  (click)="actions.editEmployee.action(employee)"
-                  class="{{ actions.editEmployee.styles }}"
-                >
-                  {{ actions.editEmployee.text }}
-                </button>
-              }
-              @if(actions.showDeleteButton){
-                <button 
-                (click)="actions.deleteEmployee.action(employee.id)"
-                class="{{ actions.deleteEmployee.styles }}"
-                >
-                {{ actions.deleteEmployee.text }}
-                </button>
+              @if(actions.showActionColumn){
+                <div class="flex">
+                  @if (actions.showEditButton && editButtonTemplate){
+                    <ng-container *ngTemplateOutlet="editButtonTemplate; context: {employee: employee}"></ng-container>
+                  }
+                  @if(actions.showDeleteButton && deleteButtonTemplate){
+                    <ng-container *ngTemplateOutlet="deleteButtonTemplate; context: {employee: employee}"></ng-container>
+                  }
+                </div>
               }
             </tr>
           }
