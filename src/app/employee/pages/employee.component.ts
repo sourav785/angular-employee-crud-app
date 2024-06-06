@@ -1,9 +1,10 @@
-import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, effect, inject, signal } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { EmployeeSelectors, EmployeesActions } from '../../states/employee';
 import { AppState } from '../../states/app.state';
 import { ColumnDataType, ColumnDetails, Employee, TableConfigurationDetails } from '../models/employee.models';
+import { EmployeeSignalStore } from "../../store/employee.signal-store";
 
 @Component({
   selector: 'app-employee',
@@ -11,6 +12,8 @@ import { ColumnDataType, ColumnDetails, Employee, TableConfigurationDetails } fr
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
+
+  employeeSignalStore =inject(EmployeeSignalStore);
 
   columnDetails: WritableSignal<ColumnDetails[]> = signal([
     {
@@ -52,29 +55,40 @@ export class EmployeeComponent implements OnInit {
   isEmployeeAddModalOpen = false;
   isEmployeeDeleteModalOpen = false;
   employee: Employee | null = null;
+  selectedEmployeeId: number | undefined = undefined;
   employeeIdToDelete: number | undefined = undefined;
 
   constructor(
     private store: Store<AppState>
-  ) {}
+  ) {
+    effect(() => {
+      if(this.employeeSignalStore.employees()?.length){
+        this.rowDetails.set(this.employeeSignalStore.employees());
+        this.closeEmployeeAddModal();
+      }
+    }, {allowSignalWrites: true});
+  }
 
   ngOnInit(): void {
     this._getEmployeeList();
-    this.store
-      .select(EmployeeSelectors.selectAllEmployees)
-      .subscribe((employees) => {
-        this.rowDetails.set(employees);
-        this.closeEmployeeAddModal();
-      });
+    // this.store
+    //   .select(EmployeeSelectors.selectAllEmployees)
+    //   .subscribe((employees) => {
+    //     this.rowDetails.set(employees);
+    //     this.closeEmployeeAddModal();
+    //   });
   }
 
   private _getEmployeeList(): void {
-    this.store.dispatch(EmployeesActions.loadEmployees());
+    //this.store.dispatch(EmployeesActions.loadEmployees());
+    this.employeeSignalStore.loadEmployees();
+
   }
 
   openEmployeeAddModal(employee?: Employee): void {
     if (employee) {
-      this.employee = employee;
+      //this.employee = employee;
+      this.selectedEmployeeId = employee.id;
     }
     this.isEmployeeAddModalOpen = true;
   }
@@ -92,7 +106,8 @@ export class EmployeeComponent implements OnInit {
   onDeleteConfirmed(confirmed: boolean): void {
     this.isEmployeeDeleteModalOpen = false;
     if (confirmed) {
-      this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete }));
+      this.employeeSignalStore.deleteEmployee( <number>this.employeeIdToDelete );
+      //this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete }));
     }
     this.employeeIdToDelete = undefined;
   }

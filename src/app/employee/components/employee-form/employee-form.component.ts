@@ -3,7 +3,10 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
+  effect,
+  inject,
+  input
 } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +21,7 @@ import { Employee } from '../../models/employee.models';
 import { Store } from '@ngrx/store';
 import { EmployeesActions } from '../../../states/employee';
 import { AppState } from '../../../states/app.state';
+import { EmployeeSignalStore } from '../../../store/employee.signal-store';
 
 @Component({
   selector: 'app-employee-form',
@@ -26,9 +30,13 @@ import { AppState } from '../../../states/app.state';
 })
 
 export class EmployeeFormComponent implements OnInit {
-  @Input() data!: Employee | null;
+  //@Input() data!: Employee | null;
+  //@Input() employeeId!: number | undefined;
+  employeeId = input.required<number | undefined>();
   @Output() closeModalOutputFromForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  employeeSignalStore = inject(EmployeeSignalStore);
+  
   tableForm: FormGroup;
 
   passwordInputType: string = 'password';
@@ -45,21 +53,41 @@ export class EmployeeFormComponent implements OnInit {
       Email: new FormControl('', [Validators.required, Validators.email]),
       DOB: new FormControl('', [Validators.required]),
     });
+
+    effect(() => {
+      if(this.employeeSignalStore.selectedEmployee()){
+        this.tableForm.patchValue(<any>this.employeeSignalStore.selectedEmployee());
+      } else {
+        this.tableForm.reset();
+      }
+    });
+    effect(() => {
+      if(this.employeeId()){
+        this.employeeSignalStore.updateEmployeeId(<any>this.employeeId());
+      }
+    }, {allowSignalWrites: true});
   }
 
   ngOnInit(): void {
-    if (this.data) {
-      this.tableForm.patchValue(this.data);
-    }
+    // if (this.data) {
+    //   this.tableForm.patchValue(this.data);
+    // }
+    // if(this.employeeId){
+    //   this.employeeSignalStore.updateEmployeeId(this.employeeId);
+    // }
+    const selectedId = this.employeeSignalStore.employeeID;
+    this.employeeSignalStore.getEmployeeById(selectedId);
   }
 
   onSave(): void {
     if (this.tableForm.valid) {
-      if (this.data) {
-         this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.tableForm.value} }));
+      if (this.employeeId) {
+        this.employeeSignalStore.editEmployee({id: this.employeeId, ...this.tableForm.value});
+         //this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.tableForm.value} }));
          
       } else {
-        this.store.dispatch(EmployeesActions.addEmployees({ employee: this.tableForm.value }));
+        this.employeeSignalStore.addEmployee(this.tableForm.value);
+        //this.store.dispatch(EmployeesActions.addEmployees({ employee: this.tableForm.value }));
       }
     } else {
       this.tableForm.markAllAsTouched();

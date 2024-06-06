@@ -38,9 +38,8 @@
 
 <app-modal [isOpen]="isEmployeeAddModalOpen" (closeModalOutput)="closeEmployeeAddModal($event)">
   <app-employee-form
-    *ngIf="isEmployeeAddModalOpen"
     (closeModalOutputFromForm)="closeEmployeeAddModal($event)"
-    [data]="employee"
+    [employeeId]="selectedEmployeeId"
   ></app-employee-form>
 </app-modal>
 

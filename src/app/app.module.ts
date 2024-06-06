@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { EmployeeEffects, EmployeeReducers } from './states/employee';
+import { EmployeeSignalStore } from './store/employee.signal-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { EmployeeEffects, EmployeeReducers } from './states/employee';
       useClass: FakeBackendInterceptor,
       multi: true,
     },
+    EmployeeSignalStore
   ],
   bootstrap: [AppComponent],
 })

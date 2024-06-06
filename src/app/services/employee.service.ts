@@ -15,7 +15,7 @@ export class EmployeeService {
     return this.http.get<Employee[]>(`${this.url}`);
   }
 
-  getEmployeeById(id: number): Observable<Employee> {
+  getEmployeeById(id: number | null): Observable<Employee> {
     return this.http.get<Employee>(`${this.url}/${id}`);
   }
 
