@@ -13,11 +13,12 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { EmployeeEffects, EmployeeReducers } from './states/employee';
 import { EmployeeSignalStore } from './store/employee.signal-store';
-
+import { LoaderComponent } from './shared/loader/loader.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    LoaderComponent,
     AppRoutingModule,
     CommonModule,
     RouterOutlet,

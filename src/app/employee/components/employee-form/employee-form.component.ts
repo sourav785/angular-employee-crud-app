@@ -64,17 +64,13 @@ export class EmployeeFormComponent implements OnInit {
     effect(() => {
       if(this.employeeId()){
         this.employeeSignalStore.updateEmployeeId(<any>this.employeeId());
+      } else {
+        this.tableForm.reset();
       }
     }, {allowSignalWrites: true});
   }
 
   ngOnInit(): void {
-    // if (this.data) {
-    //   this.tableForm.patchValue(this.data);
-    // }
-    // if(this.employeeId){
-    //   this.employeeSignalStore.updateEmployeeId(this.employeeId);
-    // }
     const selectedId = this.employeeSignalStore.employeeID;
     this.employeeSignalStore.getEmployeeById(selectedId);
   }
@@ -82,12 +78,9 @@ export class EmployeeFormComponent implements OnInit {
   onSave(): void {
     if (this.tableForm.valid) {
       if (this.employeeId) {
-        this.employeeSignalStore.editEmployee({id: this.employeeId, ...this.tableForm.value});
-         //this.store.dispatch(EmployeesActions.updateEmployees({ employee: {id: this.data.id, ...this.tableForm.value} }));
-         
+        this.employeeSignalStore.editEmployee({id: this.employeeId(), ...this.tableForm.value});
       } else {
         this.employeeSignalStore.addEmployee(this.tableForm.value);
-        //this.store.dispatch(EmployeesActions.addEmployees({ employee: this.tableForm.value }));
       }
     } else {
       this.tableForm.markAllAsTouched();

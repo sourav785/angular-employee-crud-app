@@ -6,6 +6,7 @@ import { ModalComponent } from '../shared/modal/modal.component';
 import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomTableComponent } from '../shared/custom-table/custom-table.component';
+import { LoaderComponent } from '../shared/loader/loader.component';
 
 
 @NgModule({
@@ -16,8 +17,8 @@ import { CustomTableComponent } from '../shared/custom-table/custom-table.compon
     ReactiveFormsModule,
     EmployeeRoutingModule,
     ModalComponent,
-    CustomTableComponent
-    
+    CustomTableComponent,
+    LoaderComponent
   ],
   providers: [],
 })

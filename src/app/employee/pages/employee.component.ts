@@ -5,6 +5,7 @@ import { EmployeeSelectors, EmployeesActions } from '../../states/employee';
 import { AppState } from '../../states/app.state';
 import { ColumnDataType, ColumnDetails, Employee, TableConfigurationDetails } from '../models/employee.models';
 import { EmployeeSignalStore } from "../../store/employee.signal-store";
+import { StateStatus } from '../../shared/model/shared.model';
 
 @Component({
   selector: 'app-employee',
@@ -50,7 +51,7 @@ export class EmployeeComponent implements OnInit {
     showDeleteButton: true,
   });
 
-
+  StateStatus = StateStatus;
   public rowDetails: WritableSignal<Employee[]> = signal([]);
   isEmployeeAddModalOpen = false;
   isEmployeeDeleteModalOpen = false;
@@ -71,25 +72,14 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this._getEmployeeList();
-    // this.store
-    //   .select(EmployeeSelectors.selectAllEmployees)
-    //   .subscribe((employees) => {
-    //     this.rowDetails.set(employees);
-    //     this.closeEmployeeAddModal();
-    //   });
   }
 
   private _getEmployeeList(): void {
-    //this.store.dispatch(EmployeesActions.loadEmployees());
     this.employeeSignalStore.loadEmployees();
-
   }
 
   openEmployeeAddModal(employee?: Employee): void {
-    if (employee) {
-      //this.employee = employee;
-      this.selectedEmployeeId = employee.id;
-    }
+    this.selectedEmployeeId = employee?.id;
     this.isEmployeeAddModalOpen = true;
   }
 
@@ -107,7 +97,6 @@ export class EmployeeComponent implements OnInit {
     this.isEmployeeDeleteModalOpen = false;
     if (confirmed) {
       this.employeeSignalStore.deleteEmployee( <number>this.employeeIdToDelete );
-      //this.store.dispatch(EmployeesActions.deleteEmployees({ id: <number>this.employeeIdToDelete }));
     }
     this.employeeIdToDelete = undefined;
   }

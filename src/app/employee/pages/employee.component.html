@@ -9,6 +9,11 @@
   </button>
 </div>
 
+@if(employeeSignalStore.status() === StateStatus.LOADING){
+  <app-loader></app-loader>
+}
+
+
 <app-custom-table
   [columnDetails]="columnDetails()"
   [rowDetails]="rowDetails()"
