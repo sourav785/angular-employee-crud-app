@@ -36,7 +36,7 @@ export class EmployeeFormComponent implements OnInit {
   @Output() closeModalOutputFromForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   employeeSignalStore = inject(EmployeeSignalStore);
-  
+
   tableForm: FormGroup;
 
   passwordInputType: string = 'password';
@@ -77,7 +77,7 @@ export class EmployeeFormComponent implements OnInit {
 
   onSave(): void {
     if (this.tableForm.valid) {
-      if (this.employeeId) {
+      if (this.employeeId()) {
         this.employeeSignalStore.editEmployee({id: this.employeeId(), ...this.tableForm.value});
       } else {
         this.employeeSignalStore.addEmployee(this.tableForm.value);
